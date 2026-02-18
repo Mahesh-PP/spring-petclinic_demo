@@ -1,0 +1,51 @@
+name: Java Migration CI/CD - spring-petclinic_demo
+
+on:
+  push:
+    branches: [main, develop, master]
+    paths:
+      - 'pom.xml'
+      - 'build.gradle'
+      - 'src/**'
+      - '.openrewrite/**'
+  pull_request:
+    branches: [main, develop, master]
+  workflow_dispatch:
+
+jobs:
+  validate-migration:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        java-version: [11, 17, 21, 25]
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Set up Java ${{ matrix.java-version }}
+        uses: actions/setup-java@v3
+        with:
+          java-version: ${{ matrix.java-version }}
+          distribution: 'temurin'
+          cache: maven
+      
+      - name: Compile
+        run: |
+          if [ -f "pom.xml" ]; then
+            ./mvnw clean compile -DskipTests
+          else
+            ./gradlew clean build -x test
+          fi
+      
+      - name: Run tests
+        run: |
+          if [ -f "pom.xml" ]; then
+            ./mvnw test verify
+          else
+            ./gradlew test
+          fi
+      
+      - name: Code quality
+        run: |
+          if [ -f "pom.xml" ]; then
+            ./mvnw checkstyle:check spotbugs:check || true
+          fi

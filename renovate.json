@@ -1,0 +1,44 @@
+{
+  "extends": [
+    "config:base"
+  ],
+  "automerge": false,
+  "java": {
+    "enabled": true,
+    "minor": {
+      "enabled": true
+    },
+    "patch": {
+      "enabled": true
+    },
+    "digest": {
+      "enabled": true
+    }
+  },
+  "maven": {
+    "enabled": true,
+    "skipCache": true,
+    "skipDependencyUpdate": false
+  },
+  "packageRules": [
+    {
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
+      "automerge": true,
+      "automergeType": "pr"
+    },
+    {
+      "matchDatasources": [
+        "maven"
+      ],
+      "commitMessagePrefix": "chore(deps): "
+    }
+  ],
+  "schedule": [
+    "before 3am on Monday"
+  ],
+  "prCreation": "not-pending",
+  "semanticCommits": true
+}

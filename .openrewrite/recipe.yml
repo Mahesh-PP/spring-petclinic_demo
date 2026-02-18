@@ -1,0 +1,7 @@
+description: Automated Java 17 to Java 21 migration
+displayName: Migrate from Java 17 to Java 21
+name: java17to21
+recipeList:
+- org.openrewrite.java.migrate.Java17to21
+- org.openrewrite.java.migrate.UpgradeToJava21
+type: specs.openrewrite.org/v1beta/recipe

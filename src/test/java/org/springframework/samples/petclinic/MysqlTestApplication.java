@@ -34,8 +34,7 @@ public class MysqlTestApplication {
 	@Profile("mysql")
 	@Bean
 	static MySQLContainer<?> container() {
-		return new MySQLContainer<>(DockerImageName.parse("mysql:8.0"))
-			.withDatabaseName("petclinic")
+		return new MySQLContainer<>(DockerImageName.parse("mysql:8.0")).withDatabaseName("petclinic")
 			.withUsername("petclinic")
 			.withPassword("petclinic");
 	}
